@@ -6,9 +6,9 @@
 .nyc_output
 .project
 .settings
-.vscode
 TAGS
 coverage
 dist
 node_modules
 reports
+config.bat
