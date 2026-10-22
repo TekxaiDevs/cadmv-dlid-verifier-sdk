@@ -12,3 +12,9 @@ coverage
 dist
 node_modules
 reports
+
+# Local client barcode captures may contain personal data — keep untracked
+# unless explicitly authorized to commit.
+Cali-1.raw
+Cali-Fake.raw
+Client-Sample.raw

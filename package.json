@@ -9,9 +9,13 @@
     "./lib/**/*.js"
   ],
   "scripts": {
-    "test": "vitest",
+    "test": "vitest run",
+    "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",
     "lint": "eslint"
+  },
+  "engines": {
+    "node": ">=20"
   },
   "repository": {
     "type": "git",
