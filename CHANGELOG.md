@@ -30,6 +30,9 @@
   issuer rejection) on the public UAT example without mocking crypto.
 - Document that `valid: true` is barcode/crypto/status validity only — not
   physical-card authenticity.
+- Add Option A host integration: `RESULT_CODES` / `verifyWithCode` /
+  `inspectBarcodeGate` (`1` valid, `0` invalid, `2` revoked, `10` offline),
+  Node HTTP service (`npm run service`), and Xamarin sample C# client.
 - Document that revocation vs status-list load failures are distinguished via
   `error.cause` (no in-repo integer result-code API); add acceptance audit.
 - Normalize scanner input at the `verify()` boundary by retaining content from

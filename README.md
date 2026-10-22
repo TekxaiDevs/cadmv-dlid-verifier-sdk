@@ -266,10 +266,48 @@ This library verifies barcode payloads according to the published CA DMV
 technical overview and related open specifications. It does not claim
 official CA DMV certification or endorsement.
 
-For JS API readiness versus UAT/status, integer-code, Xamarin/Android, and
+For JS API readiness versus UAT/status, Xamarin/Android hosting, and
 physical-card scope boundaries, see `ACCEPTANCE_AUDIT.md` §7
 (Release-readiness). That document does **not** constitute full client
 acceptance or production release approval.
+
+## Integer result codes (Xamarin Option A)
+
+Hosts that need `1` / `0` / `2` / `10` should use the thin coded API (Node),
+not Jint:
+
+```js
+import {verifyWithCode, RESULT_CODES} from 'cadmv-dlid-verifier-sdk';
+
+const {code} = await verifyWithCode({
+  data: scannedPdf417Data,
+  mode: 'prod',
+  online: true,          // false → 10 without calling crypto
+  verifyStatus: true     // default true so revoked can map to 2
+});
+// RESULT_CODES.VALID (1) | INVALID (0) | REVOKED (2) | OFFLINE (10)
+```
+
+Pre-gate helper (issue date ≥ 2025-09-29 and/or VCB present):
+
+```js
+import {inspectBarcodeGate} from 'cadmv-dlid-verifier-sdk';
+const gate = await inspectBarcodeGate({data: scannedPdf417Data});
+if(gate.shouldVerify) {
+  // call verifyWithCode / HTTP service
+}
+```
+
+Run the local HTTP service for C# / Xamarin:
+
+```sh
+npm run service
+# POST http://127.0.0.1:8787/v1/verify
+```
+
+Sample C# client and gate: [`integration/`](./integration/). Full crypto
+runs in Node; the Android app only checks connectivity, applies the gate,
+and maps the returned integer code.
 
 ## Contribute
 

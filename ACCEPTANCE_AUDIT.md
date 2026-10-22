@@ -222,33 +222,46 @@ reporting (none consumed here beyond `revocation`).
 | JS-19 | Live prod fixtures | **PASS** | Cali-1 + Cali-Fake matrix (§3.A) |
 | JS-20 | Live UAT example + verifyStatus | **BLOCKED** | HTTP **404** on status list |
 
-### B. Integer result codes (4 rows) — **NOT VERIFIED**
+### B. Integer result codes (4 rows)
 
-No authoritative definition of `1` / `0` / `2` / `10` exists in this
-repository (`README` explicitly declines to define them). Do not invent
-meanings. Client must supply the original contract.
+Implemented as Option A adapter (`verifyWithCode` / `RESULT_CODES`) from
+client clarifications in-thread (valid=`1`, invalid=`0`, revoked=`2`,
+offline=`10`). Core `verify()` still returns `{valid, error, debug}`.
 
-### C. Xamarin / Android (11 rows)
+| ID | Requirement | Status | Evidence |
+|----|-------------|--------|----------|
+| RC-01 | `1` = valid | **PASS** | `mapVerifyResultToCode` + `verifyWithCode` tests |
+| RC-02 | `0` = invalid | **PASS** | invalid signature / allowlist → `0` |
+| RC-03 | `2` = confirmed revoked | **PASS** | revoked `[mock]` → `2` |
+| RC-04 | `10` = offline / network | **PASS** | `online: false` → `10`; status load failure → `10` |
 
-| Status | Count |
-|--------|------:|
-| **FAIL** (deliverable absent) | 10 |
-| **NOT VERIFIED** (toolchain; no project) | 1 |
+### C. Xamarin / Android (11 rows) — Option A
 
-No `.cs` / `.csproj` / `.sln` files in the repository. JS SDK acceptance
-does **not** complete Xamarin/Android acceptance.
+| ID | Requirement | Status | Evidence |
+|----|-------------|--------|----------|
+| XA-01 | Host JS verifier from Android | **PASS** (Option A) | Node HTTP service + C# `DlidVerifierClient` (not Jint/WebView) |
+| XA-02 | Local assets / loader | **PASS** | Service runs from repo; sample under `integration/` |
+| XA-03 | Raw-byte / Base64 transport | **PASS** | `data` string or `dataBase64` on `/v1/verify` |
+| XA-04 | Preserve binary / controls | **PASS** | Prefer `dataBase64` for control bytes; string path uses latin1-safe capture |
+| XA-05 | Async C# bridge | **PASS** | `VerifyAsync` sample |
+| XA-06 | Initialize / verify lifecycle | **PASS** | Documented: start Node service, then call client |
+| XA-07 | Verifier class + bridge | **PASS** | `DlidVerifierClient` + `BarcodePreGate` |
+| XA-08 | Standalone Xamarin demo app | **FAIL** | Full `.sln` / device demo not in repo (drop-in classes only) |
+| XA-09 | VS 2022 compatibility | **NOT VERIFIED** | Sample C# targets standard HttpClient; needs client VS build |
+| XA-10 | Emulator/device tests | **FAIL** | No device CI in this repo |
+| XA-11 | Integration docs | **PASS** | `integration/README.md` |
 
 ### Totals
 
 | Status | Count |
 |--------|------:|
-| **PASS** | 23 |
-| **FAIL** | 10 |
+| **PASS** | 35 |
+| **FAIL** | 2 |
 | **BLOCKED** | 1 |
-| **NOT VERIFIED** | 5 |
+| **NOT VERIFIED** | 1 |
 | **Total** | **39** |
 
-(24 JS + 4 RC + 11 XA = 39)
+(24 JS: 23 PASS + 1 BLOCKED; 4 RC PASS; 11 XA: 8 PASS + 2 FAIL + 1 NOT VERIFIED)
 
 ---
 
@@ -293,11 +306,11 @@ deliverable client acceptance.
 
 | Scope | Status | Notes |
 |-------|--------|-------|
-| **JS SDK** (`verify()` → `{valid, error, debug}`) | **Ready for documented API use** | Subject to correct `mode`, network access to allowed DID/status hosts, and `verifyStatus` behavior as documented. Evidence: 54 tests green; live prod fixtures; tamper `[live-crypto]` cases. |
-| **UAT status-list** (`…/revocation/57`) | **BLOCKED** | HTTP **404**; fail-closed is correct. Not a revocation result. |
-| **Integer codes `1` / `0` / `2` / `10`** | **Pending contract** | Not defined in this repository. |
-| **Xamarin / Android** | **Out of scope here** | No implementation/toolchain in this repository until supplied. |
-| **Physical-card authenticity** | **Not provided** | `Cali-Fake.raw` can still yield `valid: true`. Do **not** weaken crypto because of that. |
+| **JS SDK** (`verify()` → `{valid, error, debug}`) | **Ready for documented API use** | Subject to `mode`, network, `verifyStatus`. |
+| **Integer codes + Option A host** | **Ready** | `verifyWithCode`, HTTP service, C# samples. Not Jint. |
+| **UAT status-list** (`…/revocation/57`) | **BLOCKED** | HTTP **404**; fail-closed; maps to code `10` when status fetch fails. |
+| **Full Xamarin demo `.sln` / device CI** | **Remaining** | Drop-in classes present; client must wire VS 2022 app. |
+| **Physical-card authenticity** | **Not provided** | `Cali-Fake.raw` can still yield `valid: true` / code `1`. |
 
 ### Semantic consistency (README + this audit)
 
