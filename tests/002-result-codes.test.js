@@ -14,6 +14,7 @@ import {
   inspectBarcodeGate,
   mapVerifyResultToCode,
   RESULT_CODES,
+  VERIFIER_SCOPE,
   verify,
   verifyWithCode
 } from '../lib/index.js';
@@ -55,6 +56,10 @@ async function createMockStatusListCredential({revoked = false} = {}) {
 }
 
 describe('result codes [deterministic unit]', () => {
+  it('exposes physicalAuthenticity as false', () => {
+    expect(VERIFIER_SCOPE.physicalAuthenticity).toBe(false);
+  });
+
   it('maps valid → 1', () => {
     expect(mapVerifyResultToCode({valid: true})).toBe(RESULT_CODES.VALID);
   });

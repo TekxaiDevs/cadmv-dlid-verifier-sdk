@@ -28,13 +28,15 @@
  * Response JSON: {
  *   "code": 1 | 0 | 2 | 10,
  *   "valid": boolean,
- *   "errorMessage": string | null
+ *   "errorMessage": string | null,
+ *   "scope": { physicalAuthenticity: false, ... }
  * }
  */
 import {createServer} from 'node:http';
 
 import {
   RESULT_CODES,
+  VERIFIER_SCOPE,
   verifyWithCode
 } from '../lib/index.js';
 
@@ -90,7 +92,8 @@ const server = createServer(async (req, res) => {
     sendJson(res, 200, {
       ok: true,
       service: 'cadmv-dlid-verifier-sdk',
-      resultCodes: RESULT_CODES
+      resultCodes: RESULT_CODES,
+      scope: VERIFIER_SCOPE
     });
     return;
   }
@@ -137,6 +140,7 @@ const server = createServer(async (req, res) => {
         code: coded.code,
         valid: coded.verifyResult?.valid === true,
         errorMessage: sanitizeErrorMessage(coded.verifyResult?.error),
+        scope: coded.scope || VERIFIER_SCOPE,
         gate: coded.gate ?
           {
             shouldVerify: coded.gate.shouldVerify,

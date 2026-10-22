@@ -13,7 +13,8 @@
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",
     "lint": "eslint",
-    "service": "node integration/http-service.mjs"
+    "service": "node integration/http-service.mjs",
+    "test:e2e-host": "node integration/e2e-host-acceptance.mjs"
   },
   "engines": {
     "node": ">=20"

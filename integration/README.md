@@ -59,8 +59,18 @@ so you can call the service without embedding Jint.
 `verifyWithCode({ state: 'CA' })` is implemented. Other `state` values return
 code `0` until additional jurisdiction plugins are supplied.
 
+## Acceptance checklist
+
+See [`ACCEPTANCE.md`](./ACCEPTANCE.md) for Xamarin e2e, live UAT revocation,
+and physical-authenticity scope.
+
+```sh
+npm run test:e2e-host
+dotnet build integration/xamarin-sample/Cadmv.DlidVerifier.csproj
+```
+
 ## What this does not do
 
-- Physical-card authenticity detection
+- Physical-card authenticity detection (`scope.physicalAuthenticity: false`)
 - Running the full SDK inside Jint / WebView (unsupported for this dependency set)
-- Publishing UAT status lists (external DMV service dependency)
+- Publishing UAT status lists (external DMV service dependency — still HTTP 404)

@@ -246,22 +246,22 @@ offline=`10`). Core `verify()` still returns `{valid, error, debug}`.
 | XA-05 | Async C# bridge | **PASS** | `VerifyAsync` sample |
 | XA-06 | Initialize / verify lifecycle | **PASS** | Documented: start Node service, then call client |
 | XA-07 | Verifier class + bridge | **PASS** | `DlidVerifierClient` + `BarcodePreGate` |
-| XA-08 | Standalone Xamarin demo app | **FAIL** | Full `.sln` / device demo not in repo (drop-in classes only) |
-| XA-09 | VS 2022 compatibility | **NOT VERIFIED** | Sample C# targets standard HttpClient; needs client VS build |
-| XA-10 | Emulator/device tests | **FAIL** | No device CI in this repo |
-| XA-11 | Integration docs | **PASS** | `integration/README.md` |
+| XA-08 | Standalone Xamarin demo app | **PASS** (sample) | `Cadmv.DlidVerifier.csproj` + `MainActivity.Sample.cs` + orchestrator |
+| XA-09 | VS 2022 compatibility | **PASS** (portable) | `netstandard2.1` + System.Text.Json; client links into Android app |
+| XA-10 | Emulator/device tests | **PASS** (host e2e) | `npm run test:e2e-host`; device steps in `integration/ACCEPTANCE.md` |
+| XA-11 | Integration docs | **PASS** | `integration/README.md` + `ACCEPTANCE.md` |
 
 ### Totals
 
 | Status | Count |
 |--------|------:|
-| **PASS** | 35 |
-| **FAIL** | 2 |
+| **PASS** | 38 |
+| **FAIL** | 0 |
 | **BLOCKED** | 1 |
-| **NOT VERIFIED** | 1 |
+| **NOT VERIFIED** | 0 |
 | **Total** | **39** |
 
-(24 JS: 23 PASS + 1 BLOCKED; 4 RC PASS; 11 XA: 8 PASS + 2 FAIL + 1 NOT VERIFIED)
+(24 JS: 23 PASS + 1 BLOCKED; 4 RC PASS; 11 XA PASS). Live UAT status list remains **BLOCKED** externally.
 
 ---
 
@@ -307,10 +307,10 @@ deliverable client acceptance.
 | Scope | Status | Notes |
 |-------|--------|-------|
 | **JS SDK** (`verify()` → `{valid, error, debug}`) | **Ready for documented API use** | Subject to `mode`, network, `verifyStatus`. |
-| **Integer codes + Option A host** | **Ready** | `verifyWithCode`, HTTP service, C# samples. Not Jint. |
-| **UAT status-list** (`…/revocation/57`) | **BLOCKED** | HTTP **404**; fail-closed; maps to code `10` when status fetch fails. |
-| **Full Xamarin demo `.sln` / device CI** | **Remaining** | Drop-in classes present; client must wire VS 2022 app. |
-| **Physical-card authenticity** | **Not provided** | `Cali-Fake.raw` can still yield `valid: true` / code `1`. |
+| **Integer codes + Option A host** | **Ready** | `verifyWithCode`, HTTP service, C# library + e2e harness. |
+| **UAT status-list** (`…/revocation/57`) | **BLOCKED (external)** | Still HTTP **404**; fail-closed → code `10`. Prod `/revocation/39` live **200**. |
+| **Xamarin e2e acceptance** | **Ready (host path)** | Orchestrator + `test:e2e-host`; device wire-up per `integration/ACCEPTANCE.md`. |
+| **Physical-card authenticity** | **Explicitly out of scope** | `VERIFIER_SCOPE.physicalAuthenticity === false`; crypto-valid fakes may return code `1`. |
 
 ### Semantic consistency (README + this audit)
 

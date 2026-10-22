@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- Portable library used by the Xamarin / .NET Android host.
+       Open in Visual Studio 2022 and reference from your Android app project. -->
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <RootNamespace>Cadmv.DlidVerifier</RootNamespace>
+    <AssemblyName>Cadmv.DlidVerifier</AssemblyName>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>disable</ImplicitUsings>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="System.Text.Json" Version="8.0.5" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="BarcodePreGate.cs" />
+    <Compile Include="DlidVerifierClient.cs" />
+    <Compile Include="DeviceOnline.cs" />
+    <Compile Include="VerifyOrchestrator.cs" />
+  </ItemGroup>
+</Project>
