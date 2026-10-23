@@ -1,0 +1,21 @@
+{
+  "name": "cadmv-dlid-webview-bridge",
+  "private": true,
+  "version": "1.0.0",
+  "description": "esbuild bundle + verifyBarcode wrapper for Android WebView host",
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "test": "node --test test/verifyBarcode.test.mjs"
+  },
+  "dependencies": {
+    "buffer": "^6.0.3",
+    "cadmv-dlid-verifier-sdk": "file:../.."
+  },
+  "devDependencies": {
+    "esbuild": "^0.25.0"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

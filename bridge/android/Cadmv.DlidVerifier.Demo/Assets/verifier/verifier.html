@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CA DMV DL/ID Verifier</title>
+</head>
+<body>
+  <!--
+    Loaded via WebViewAssetLoader at:
+    https://appassets.androidplatform.net/assets/verifier/verifier.html
+    Secure context required for crypto.subtle.
+  -->
+  <script src="ca-verifier.bundle.js"></script>
+  <script>
+    // Belt-and-suspenders ready signal if the bundle footer missed the bridge.
+    try {
+      console.info('[CaVerifier] host page loaded, api=' +
+        !!(globalThis.CaVerifier && CaVerifier.verifyBarcode));
+      if (globalThis.CaVerifier && CaVerifier.verifyBarcode &&
+          window.CaVerifierBridge &&
+          typeof CaVerifierBridge.onReady === 'function') {
+        CaVerifierBridge.onReady();
+      }
+    } catch (e) {}
+
+    // Called from C# via EvaluateJavascript.
+    // Completes through Android bridge: CaVerifierBridge.onResult(id, code)
+    async function __caVerify(requestId, base64Data, mode, skipStatus) {
+      var code = 0;
+      try {
+        console.info('[CaVerifier] __caVerify start', requestId, mode,
+          'b64len=' + (base64Data && base64Data.length));
+        if (!globalThis.CaVerifier || !CaVerifier.verifyBarcode) {
+          console.warn('[CaVerifier] API missing');
+          code = 0;
+        } else {
+          code = await CaVerifier.verifyBarcode(base64Data, {
+            mode: mode || 'prod',
+            skipStatus: !!skipStatus
+          });
+        }
+        console.info('[CaVerifier] __caVerify done', requestId, 'code=' + code);
+      } catch (e) {
+        console.warn('[CaVerifier] __caVerify threw', e && e.message);
+        code = 0;
+      }
+      try {
+        if (window.CaVerifierBridge &&
+            typeof CaVerifierBridge.onResult === 'function') {
+          // Pass code as string — Android JavascriptInterface int binding is brittle.
+          CaVerifierBridge.onResult(String(requestId), String(code));
+        }
+      } catch (bridgeErr) {
+        // Bridge missing — C# timeout will map to 0.
+      }
+    }
+  </script>
+</body>
+</html>
