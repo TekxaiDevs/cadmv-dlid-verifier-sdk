@@ -271,10 +271,25 @@ physical-card scope boundaries, see `ACCEPTANCE_AUDIT.md` §7
 (Release-readiness). That document does **not** constitute full client
 acceptance or production release approval.
 
-## Integer result codes (Xamarin Option A)
+## Android / Xamarin host (WebView bridge)
 
-Hosts that need `1` / `0` / `2` / `10` should use the thin coded API (Node),
-not Jint:
+For iDetect-style Xamarin / .NET Android apps, use the **WebView bridge**
+under [`bridge/`](./bridge/): a bundled JS verifier runs in a hidden WebView
+and returns integer codes `1` / `0` / `2` / `10`. See
+[`bridge/docs/INTEGRATION.md`](./bridge/docs/INTEGRATION.md).
+
+```sh
+npm run bridge:build
+npm run bridge:test
+```
+
+Open [`bridge/android/Cadmv.DlidVerifier.Demo.sln`](./bridge/android/Cadmv.DlidVerifier.Demo.sln)
+in Visual Studio 2022 to run the standalone demo.
+
+## Integer result codes (Node / Option A)
+
+Hosts that need `1` / `0` / `2` / `10` from **Node** (HTTP service or
+`verifyWithCode`) can use:
 
 ```js
 import {verifyWithCode, RESULT_CODES} from 'cadmv-dlid-verifier-sdk';

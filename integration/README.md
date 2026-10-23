@@ -1,4 +1,8 @@
-# Xamarin / .NET integration (Option A)
+# Xamarin / .NET integration (Option A — local Node HTTP)
+
+> **Product path for iDetect / Michael’s app:** use the **WebView bridge** in
+> [`../bridge/`](../bridge/) (`DlidVerifier` + bundled JS). This folder is a
+> Node HTTP smoke harness for SDK developers, not the shipped Android host.
 
 The CA DMV DLID verifier SDK is a **Node.js** library with cryptographic and
 HTTP dependencies. It is **not** intended to run inside Jint.
@@ -72,5 +76,5 @@ dotnet build integration/xamarin-sample/Cadmv.DlidVerifier.csproj
 ## What this does not do
 
 - Physical-card authenticity detection (`scope.physicalAuthenticity: false`)
-- Running the full SDK inside Jint / WebView (unsupported for this dependency set)
+- Running the full SDK inside Jint (unsupported). WebView hosting is implemented under `bridge/`.
 - Publishing UAT status lists (external DMV service dependency — still HTTP 404)
