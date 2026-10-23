@@ -7,5 +7,13 @@
 import config from '@digitalbazaar/eslint-config/universal-recommended';
 
 export default [
+  {
+    ignores: [
+      'bridge/js/dist/**',
+      'bridge/js/test/**',
+      'bridge/android/**',
+      '**/node_modules/**'
+    ]
+  },
   ...config
 ];

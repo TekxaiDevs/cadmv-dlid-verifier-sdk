@@ -1,0 +1,35 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!--
+    Standalone CA DL/ID verifier demo for Visual Studio 2022 / .NET Android.
+    Opens in VS2022 with the .NET Android / MAUI workload.
+    Core host classes (DlidVerifier, VerifierJsBridge, …) can be copied into
+    a classic Xamarin.Android app — APIs used are available on both.
+  -->
+  <PropertyGroup>
+    <TargetFramework>net8.0-android</TargetFramework>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>Cadmv.DlidVerifier.Demo</RootNamespace>
+    <AssemblyName>Cadmv.DlidVerifier.Demo</AssemblyName>
+    <ApplicationId>gov.ca.dmv.dlidverifier.demo</ApplicationId>
+    <ApplicationVersion>1</ApplicationVersion>
+    <ApplicationDisplayVersion>1.0.0</ApplicationDisplayVersion>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <SupportedOSPlatformVersion>24</SupportedOSPlatformVersion>
+    <!-- Prefer Homebrew OpenJDK 17 (override with -p:JavaSdkDirectory=...) -->
+    <JavaSdkDirectory Condition="'$(JavaSdkDirectory)' == '' and Exists('/opt/homebrew/opt/openjdk@17/libexec/openjdk.jdk/Contents/Home')">/opt/homebrew/opt/openjdk@17/libexec/openjdk.jdk/Contents/Home</JavaSdkDirectory>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Xamarin.AndroidX.WebKit" Version="1.11.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <AndroidAsset Include="Assets\verifier\verifier.html" />
+    <AndroidAsset Include="Assets\verifier\ca-verifier.bundle.js" />
+    <AndroidAsset Include="Assets\fixtures\uat-valid.txt" />
+    <AndroidAsset Include="Assets\fixtures\uat-invalid.txt" />
+    <AndroidAsset Include="Assets\fixtures\cali-1-real.txt" />
+    <AndroidAsset Include="Assets\fixtures\cali-fake.txt" />
+  </ItemGroup>
+</Project>

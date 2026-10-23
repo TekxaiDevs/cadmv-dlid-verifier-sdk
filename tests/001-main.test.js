@@ -16,10 +16,17 @@ import {verify} from '../lib/index.js';
 
 // Vitest runs with the repository root as cwd.
 // Client fixtures (untracked / gitignored):
-// - Cali-1.raw: real production capture
-// - Cali-Fake.raw: from a physically fake ID (barcode may still crypto-verify)
-const CALI_1_RAW_PATH = `${process.cwd()}/Cali-1.raw`;
-const CALI_FAKE_RAW_PATH = `${process.cwd()}/Cali-Fake.raw`;
+// - files/Cali-1.raw (or ./Cali-1.raw): real production capture
+// - files/Cali-Fake.raw (or ./Cali-Fake.raw): physically fake ID
+//   (barcode may still crypto-verify)
+const CALI_1_RAW_PATH = [
+  `${process.cwd()}/files/Cali-1.raw`,
+  `${process.cwd()}/Cali-1.raw`
+].find(p => existsSync(p)) ?? `${process.cwd()}/files/Cali-1.raw`;
+const CALI_FAKE_RAW_PATH = [
+  `${process.cwd()}/files/Cali-Fake.raw`,
+  `${process.cwd()}/Cali-Fake.raw`
+].find(p => existsSync(p)) ?? `${process.cwd()}/files/Cali-Fake.raw`;
 
 /**
  * Load an untracked client capture without logging personal fields.
