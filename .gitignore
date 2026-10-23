@@ -6,15 +6,27 @@
 .nyc_output
 .project
 .settings
-.vscode
 TAGS
 coverage
 dist
 node_modules
 reports
 
+# .NET / Android build outputs
+bridge/android/**/bin/
+bridge/android/**/obj/
+*.user
+*.suo
+
 # Local client barcode captures may contain personal data — keep untracked
 # unless explicitly authorized to commit.
 Cali-1.raw
 Cali-Fake.raw
 Client-Sample.raw
+files/Cali-1.raw
+files/Cali-Fake.raw
+files/Cali-Fake*.raw
+# Demo assets copied from local captures (same PII).
+bridge/android/**/Assets/fixtures/cali-1-real.txt
+bridge/android/**/Assets/fixtures/cali-fake.txt
+config.bat
