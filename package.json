@@ -14,7 +14,9 @@
     "test:coverage": "vitest run --coverage",
     "lint": "eslint",
     "service": "node integration/http-service.mjs",
-    "test:e2e-host": "node integration/e2e-host-acceptance.mjs"
+    "test:e2e-host": "node integration/e2e-host-acceptance.mjs",
+    "bridge:build": "npm install --prefix bridge/js && npm run build --prefix bridge/js",
+    "bridge:test": "npm test --prefix bridge/js"
   },
   "engines": {
     "node": ">=20"
@@ -43,6 +45,7 @@
     "@digitalbazaar/cborld": "^8.0.2",
     "@digitalbazaar/credentials-context": "^3.2.0",
     "@digitalbazaar/data-integrity": "^2.5.0",
+    "@digitalbazaar/did-io": "^2.2.0",
     "@digitalbazaar/did-method-web": "^1.0.1",
     "@digitalbazaar/ecdsa-rdfc-2019-cryptosuite": "^1.3.0",
     "@digitalbazaar/ecdsa-xi-2023-cryptosuite": "^1.2.0",
