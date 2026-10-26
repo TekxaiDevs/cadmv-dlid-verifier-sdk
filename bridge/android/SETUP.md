@@ -4,8 +4,8 @@ Already applied on this machine (if you followed the install in-repo):
 
 | Component | Location / version |
 |-----------|--------------------|
-| .NET SDK 8 | `~/.dotnet` (`8.0.426`) |
-| Android workload | `dotnet workload list` → `android 34.0.43` |
+| .NET SDK 9 | `~/.dotnet` (`9.0.320`) |
+| Android workload | `dotnet workload list` → `android 35.0.105/9.0.100` |
 | OpenJDK 17 | Homebrew `openjdk@17` |
 | Android SDK | `~/Library/Android/sdk` |
 | System image | `android-34;google_apis;arm64-v8a` |
@@ -48,8 +48,8 @@ Or use Visual Studio 2022 / VS Code with C# Dev Kit once the workload is install
 ## Fresh machine install (no sudo)
 
 ```sh
-# .NET 8 (user install)
-curl -fsSL https://dot.net/v1/dotnet-install.sh | bash /dev/stdin --channel 8.0 --install-dir "$HOME/.dotnet"
+# .NET 9 (user install)
+curl -fsSL https://dot.net/v1/dotnet-install.sh | bash /dev/stdin --channel 9.0 --install-dir "$HOME/.dotnet"
 
 # JDK (Homebrew)
 brew install openjdk@17

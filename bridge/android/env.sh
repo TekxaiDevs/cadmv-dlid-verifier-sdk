@@ -2,7 +2,7 @@
 # Source before building / deploying the demo:
 #   source bridge/android/env.sh
 #
-# Installs nothing — only exports paths for .NET 8, OpenJDK 17, and Android SDK.
+# Installs nothing — only exports paths for .NET 9, OpenJDK 17, and Android SDK.
 
 export DOTNET_ROOT="${DOTNET_ROOT:-$HOME/.dotnet}"
 export PATH="$DOTNET_ROOT:$PATH"

@@ -1,0 +1,5 @@
+is_global = true
+build_property.RootNamespace = Cadmv.DlidVerifier
+build_property.ProjectDir = /Users/mac/dev/cadmv-dlid-verifier-sdk/integration/xamarin-sample/
+build_property.EnableComHosting = 
+build_property.EnableGeneratedComInterfaceComImportInterop = 

@@ -1,0 +1,17 @@
+{
+  "version": 2,
+  "dgSpecHash": "GbWtAAyY83k=",
+  "success": true,
+  "projectFilePath": "/Users/mac/dev/cadmv-dlid-verifier-sdk/integration/xamarin-sample/Cadmv.DlidVerifier.csproj",
+  "expectedPackageFiles": [
+    "/var/folders/bg/zldcy_kd2m90g2jztmrh4jf00000gn/T/cursor-sandbox-cache/b7d7f93a566e6fddeb613a0ef932e9f2/nuget/microsoft.bcl.asyncinterfaces/8.0.0/microsoft.bcl.asyncinterfaces.8.0.0.nupkg.sha512",
+    "/var/folders/bg/zldcy_kd2m90g2jztmrh4jf00000gn/T/cursor-sandbox-cache/b7d7f93a566e6fddeb613a0ef932e9f2/nuget/system.buffers/4.5.1/system.buffers.4.5.1.nupkg.sha512",
+    "/var/folders/bg/zldcy_kd2m90g2jztmrh4jf00000gn/T/cursor-sandbox-cache/b7d7f93a566e6fddeb613a0ef932e9f2/nuget/system.memory/4.5.5/system.memory.4.5.5.nupkg.sha512",
+    "/var/folders/bg/zldcy_kd2m90g2jztmrh4jf00000gn/T/cursor-sandbox-cache/b7d7f93a566e6fddeb613a0ef932e9f2/nuget/system.numerics.vectors/4.4.0/system.numerics.vectors.4.4.0.nupkg.sha512",
+    "/var/folders/bg/zldcy_kd2m90g2jztmrh4jf00000gn/T/cursor-sandbox-cache/b7d7f93a566e6fddeb613a0ef932e9f2/nuget/system.runtime.compilerservices.unsafe/6.0.0/system.runtime.compilerservices.unsafe.6.0.0.nupkg.sha512",
+    "/var/folders/bg/zldcy_kd2m90g2jztmrh4jf00000gn/T/cursor-sandbox-cache/b7d7f93a566e6fddeb613a0ef932e9f2/nuget/system.text.encodings.web/8.0.0/system.text.encodings.web.8.0.0.nupkg.sha512",
+    "/var/folders/bg/zldcy_kd2m90g2jztmrh4jf00000gn/T/cursor-sandbox-cache/b7d7f93a566e6fddeb613a0ef932e9f2/nuget/system.text.json/8.0.5/system.text.json.8.0.5.nupkg.sha512",
+    "/var/folders/bg/zldcy_kd2m90g2jztmrh4jf00000gn/T/cursor-sandbox-cache/b7d7f93a566e6fddeb613a0ef932e9f2/nuget/system.threading.tasks.extensions/4.5.4/system.threading.tasks.extensions.4.5.4.nupkg.sha512"
+  ],
+  "logs": []
+}

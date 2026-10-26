@@ -1,0 +1,11 @@
+/Users/mac/dev/cadmv-dlid-verifier-sdk/integration/xamarin-sample/bin/Debug/netstandard2.1/Cadmv.DlidVerifier.deps.json
+/Users/mac/dev/cadmv-dlid-verifier-sdk/integration/xamarin-sample/bin/Debug/netstandard2.1/Cadmv.DlidVerifier.dll
+/Users/mac/dev/cadmv-dlid-verifier-sdk/integration/xamarin-sample/bin/Debug/netstandard2.1/Cadmv.DlidVerifier.pdb
+/Users/mac/dev/cadmv-dlid-verifier-sdk/integration/xamarin-sample/obj/Debug/netstandard2.1/Cadmv.DlidVerifier.csproj.AssemblyReference.cache
+/Users/mac/dev/cadmv-dlid-verifier-sdk/integration/xamarin-sample/obj/Debug/netstandard2.1/Cadmv.DlidVerifier.GeneratedMSBuildEditorConfig.editorconfig
+/Users/mac/dev/cadmv-dlid-verifier-sdk/integration/xamarin-sample/obj/Debug/netstandard2.1/Cadmv.DlidVerifier.AssemblyInfoInputs.cache
+/Users/mac/dev/cadmv-dlid-verifier-sdk/integration/xamarin-sample/obj/Debug/netstandard2.1/Cadmv.DlidVerifier.AssemblyInfo.cs
+/Users/mac/dev/cadmv-dlid-verifier-sdk/integration/xamarin-sample/obj/Debug/netstandard2.1/Cadmv.DlidVerifier.csproj.CoreCompileInputs.cache
+/Users/mac/dev/cadmv-dlid-verifier-sdk/integration/xamarin-sample/obj/Debug/netstandard2.1/Cadmv.DlidVerifier.sourcelink.json
+/Users/mac/dev/cadmv-dlid-verifier-sdk/integration/xamarin-sample/obj/Debug/netstandard2.1/Cadmv.DlidVerifier.dll
+/Users/mac/dev/cadmv-dlid-verifier-sdk/integration/xamarin-sample/obj/Debug/netstandard2.1/Cadmv.DlidVerifier.pdb

@@ -1,0 +1,72 @@
+{
+  "format": 1,
+  "restore": {
+    "/Users/mac/dev/cadmv-dlid-verifier-sdk/integration/xamarin-sample/Cadmv.DlidVerifier.csproj": {}
+  },
+  "projects": {
+    "/Users/mac/dev/cadmv-dlid-verifier-sdk/integration/xamarin-sample/Cadmv.DlidVerifier.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/Users/mac/dev/cadmv-dlid-verifier-sdk/integration/xamarin-sample/Cadmv.DlidVerifier.csproj",
+        "projectName": "Cadmv.DlidVerifier",
+        "projectPath": "/Users/mac/dev/cadmv-dlid-verifier-sdk/integration/xamarin-sample/Cadmv.DlidVerifier.csproj",
+        "packagesPath": "/var/folders/bg/zldcy_kd2m90g2jztmrh4jf00000gn/T/cursor-sandbox-cache/b7d7f93a566e6fddeb613a0ef932e9f2/nuget",
+        "outputPath": "/Users/mac/dev/cadmv-dlid-verifier-sdk/integration/xamarin-sample/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/Users/mac/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "netstandard2.1"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netstandard2.1": {
+            "targetAlias": "netstandard2.1",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        }
+      },
+      "frameworks": {
+        "netstandard2.1": {
+          "targetAlias": "netstandard2.1",
+          "dependencies": {
+            "System.Text.Json": {
+              "target": "Package",
+              "version": "[8.0.5, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "NETStandard.Library": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/Users/mac/.dotnet/sdk/8.0.426/RuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}

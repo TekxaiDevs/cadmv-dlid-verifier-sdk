@@ -36,7 +36,7 @@ npm test         # wrapper unit + live UAT crypto checks
 See [`android/SETUP.md`](android/SETUP.md) for .NET / JDK / emulator install.
 
 ```sh
-source bridge/android/env.sh          # .NET 8 + JDK 17 + Android SDK
+source bridge/android/env.sh          # .NET 9 + JDK 17 + Android SDK
 ./bridge/android/run-emulator-demo.sh # start AVD if needed, install, launch
 ```
 

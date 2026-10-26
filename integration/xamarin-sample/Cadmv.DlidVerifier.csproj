@@ -12,10 +12,9 @@
   <ItemGroup>
     <PackageReference Include="System.Text.Json" Version="8.0.5" />
   </ItemGroup>
+  <!-- SDK auto-includes *.cs; keep the Android sample out of this portable library. -->
   <ItemGroup>
-    <Compile Include="BarcodePreGate.cs" />
-    <Compile Include="DlidVerifierClient.cs" />
-    <Compile Include="DeviceOnline.cs" />
-    <Compile Include="VerifyOrchestrator.cs" />
+    <Compile Remove="Android/**" />
+    <None Include="Android/**" />
   </ItemGroup>
 </Project>
