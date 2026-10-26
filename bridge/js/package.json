@@ -5,7 +5,7 @@
   "description": "esbuild bundle + verifyBarcode wrapper for Android WebView host",
   "type": "module",
   "scripts": {
-    "build": "node scripts/build.mjs",
+    "build": "node api.js && node scripts/build.mjs",
     "test": "node --test test/verifyBarcode.test.mjs"
   },
   "dependencies": {
