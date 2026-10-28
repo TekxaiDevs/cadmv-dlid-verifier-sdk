@@ -23,11 +23,11 @@ Requires network to DMV hosts unless testing offline.
 
 | # | Case | Steps | Expected | Result |
 |---|------|-------|----------|--------|
-| D1 | Valid UAT → 1 | Load UAT Valid, UAT on, **Skip status ON**, Verify | 1 | *Pending device* |
-| D2 | Invalid UAT → 0 | Load UAT Invalid, same flags | 0 | *Pending device* |
+| D1 | Valid UAT → 1 | **UAT Valid** (auto UAT on + Skip status ON), Verify | 1 | *Pending device* |
+| D2 | Invalid UAT → 0 | **UAT Invalid**, same flags | 0 | *Pending device* |
 | D3 | Empty → 0 | Clear, Verify | 0 | *Pending device* |
 | D4 | Offline → 10 | Airplane mode, Verify any payload | 10 | *Pending device* |
-| D5 | Prod + status | Client `Cali-1.raw` / scanner raw, UAT off, Skip status OFF | 1 | *Pending client fixture* |
+| D5 | Prod + status | **Prod Real** (`Cali-1.raw`; auto UAT off + Skip OFF) | 1 | Fixture in demo assets |
 | D6 | Malformed paste | Random text | 0 | *Pending device* |
 | D7 | Two-pass revoked | Fixture with revocation bit (mock or live) | 2 | Covered in SDK Vitest mocks; *pending device* |
 | D8 | DMV unreachable | Valid crypto path with network blocked mid-fetch | 10 | *Pending device* |

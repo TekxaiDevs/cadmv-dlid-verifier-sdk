@@ -44,8 +44,15 @@ Or open [`android/Cadmv.DlidVerifier.Demo.sln`](android/Cadmv.DlidVerifier.Demo.
 
 In the app:
 
-1. Tap **Load UAT Valid**, leave **Skip status** on, tap **Verify** → expect **1**.
-2. Airplane mode → expect **10**.
+1. Tap **UAT Valid** (auto: UAT mode ON, Skip status ON) → **Verify** → expect **1**.
+2. Tap **Prod Real** (auto: UAT OFF, Skip status OFF) → **Verify** → expect **1**.
+3. **Prod Clone** (formerly “Prod Fake”) is a physical clone whose barcode
+   crypto still verifies → expect **1** (not a physical authenticity fail).
+4. Airplane mode → expect **10**.
+
+**UAT vs Prod:** UAT buttons load CA DMV *sandbox* documentation samples
+(`uat-credentials.dmv.ca.gov`). Prod buttons load *production* barcodes
+(`credentials.dmv.ca.gov`). Mode must match the sample or verification fails.
 
 ## Product call site (Michael’s app)
 

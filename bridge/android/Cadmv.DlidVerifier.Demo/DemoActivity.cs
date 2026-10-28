@@ -53,12 +53,13 @@ namespace Cadmv.DlidVerifier.Demo
             var loadValid = new Button(this) { Text = "UAT Valid" };
             var loadInvalid = new Button(this) { Text = "UAT Invalid" };
             var loadReal = new Button(this) { Text = "Prod Real" };
-            var loadFake = new Button(this) { Text = "Prod Fake" };
+            // Physically fake card; barcode crypto is still valid → expect 1.
+            var loadFake = new Button(this) { Text = "Prod Clone" };
             var clear = new Button(this) { Text = "Clear" };
 
             var uatSwitch = new Switch(this)
             {
-                Text = "UAT mode",
+                Text = "UAT mode (sandbox hosts)",
                 Checked = true
             };
             var skipStatus = new Switch(this)
@@ -74,9 +75,13 @@ namespace Cadmv.DlidVerifier.Demo
             };
             var result = new TextView(this)
             {
-                Text = "Result: —\n1=valid  0=invalid  2=revoked  10=offline\n" +
-                    "Note: 1 is barcode crypto/status only — not physical authenticity.",
-                TextSize = 18f
+                Text =
+                    "Result: —\n" +
+                    "1=valid  0=invalid  2=revoked  10=offline\n" +
+                    "UAT buttons = CA DMV sandbox samples (need UAT mode).\n" +
+                    "Prod buttons = production barcodes (need UAT mode OFF).\n" +
+                    "Prod Clone still returns 1 — barcode crypto OK, not physical check.",
+                TextSize = 16f
             };
 
             var row1 = new LinearLayout(this) { Orientation = Orientation.Horizontal };
@@ -105,7 +110,14 @@ namespace Cadmv.DlidVerifier.Demo
             SetContentView(scroll);
 
             // Wire clicks before awaiting init — otherwise buttons look live but do nothing.
-            void LoadFixture(string asset, bool forceProd, string? hint = null)
+            // forceProd: prod issuer hosts. forceUat: UAT sandbox hosts.
+            // Matching mode is required — cross-mode always fails ("URL not allowed").
+            void LoadFixture(
+                string asset,
+                bool forceProd,
+                bool forceUat,
+                bool skipStatusForFixture,
+                string? hint = null)
             {
                 try
                 {
@@ -119,10 +131,20 @@ namespace Cadmv.DlidVerifier.Demo
                     {
                         uatSwitch.Checked = false;
                     }
+                    else if (forceUat)
+                    {
+                        uatSwitch.Checked = true;
+                    }
+                    // UAT status lists often 404 → keep skip ON for UAT demos.
+                    // Prod path uses live status lists → turn skip OFF.
+                    skipStatus.Checked = skipStatusForFixture;
+
                     DismissKeyboard(input);
                     var hasRs = Array.IndexOf(bytes, (byte)0x1e) >= 0;
+                    var modeLabel = uatSwitch.Checked ? "UAT" : "prod";
                     status.Text = (hint ?? $"Loaded {asset}") +
-                        $" ({bytes.Length} B, RS={(hasRs ? "yes" : "no")})";
+                        $" ({bytes.Length} B, RS={(hasRs ? "yes" : "no")}, " +
+                        $"mode={modeLabel}, skipStatus={skipStatus.Checked})";
                 }
                 catch (Exception ex)
                 {
@@ -133,33 +155,34 @@ namespace Cadmv.DlidVerifier.Demo
                 }
             }
 
-            loadValid.Click += (_, __) =>
-            {
-                uatSwitch.Checked = true;
-                LoadFixture(
-                    "fixtures/uat-valid.txt",
-                    false,
-                    "Loaded UAT valid — expect 1 (crypto). UAT mode ON.");
-            };
-            loadInvalid.Click += (_, __) =>
-            {
-                uatSwitch.Checked = true;
-                LoadFixture(
-                    "fixtures/uat-invalid.txt",
-                    false,
-                    "Loaded UAT invalid — expect 0. UAT mode ON.");
-            };
-            // Original client captures from files/Cali-1.raw and files/Cali-Fake.raw.
+            // Official CA DMV UAT documentation samples (sandbox DID hosts).
+            loadValid.Click += (_, __) => LoadFixture(
+                "fixtures/uat-valid.txt",
+                forceProd: false,
+                forceUat: true,
+                skipStatusForFixture: true,
+                hint: "UAT valid (sandbox sample) — expect 1. UAT mode ON, skip status ON " +
+                    "(UAT revocation lists often 404 → would return 10).");
+            loadInvalid.Click += (_, __) => LoadFixture(
+                "fixtures/uat-invalid.txt",
+                forceProd: false,
+                forceUat: true,
+                skipStatusForFixture: true,
+                hint: "UAT invalid signature — expect 0. UAT mode ON.");
+            // Client captures: files/Cali-1.raw and files/Cali-Fake.raw (prod issuer).
             loadReal.Click += (_, __) => LoadFixture(
                 "fixtures/cali-1-real.txt",
-                true,
-                "Loaded Cali-1.raw (prod real) — expect 1 with UAT off. " +
-                "1 = barcode crypto/status only.");
+                forceProd: true,
+                forceUat: false,
+                skipStatusForFixture: false,
+                hint: "Cali-1.raw (production real) — expect 1. UAT OFF, status ON.");
             loadFake.Click += (_, __) => LoadFixture(
                 "fixtures/cali-fake.txt",
-                true,
-                "Loaded Cali-Fake.raw (physical fake; crypto still OK) — expect 1. " +
-                "1 is not physical authenticity.");
+                forceProd: true,
+                forceUat: false,
+                skipStatusForFixture: false,
+                hint: "Cali-Fake.raw (physical clone; barcode crypto still valid) — expect 1. " +
+                    "Not a physical authenticity check.");
             clear.Click += (_, __) =>
             {
                 _rawBarcodeBytes = null;
@@ -233,8 +256,9 @@ namespace Cadmv.DlidVerifier.Demo
                 _ready = true;
                 verify.Enabled = true;
                 status.Text =
-                    "Status: WebView ready — try UAT Valid → Verify (expect 1). " +
-                    "Prod Real/Fake use preserved asset bytes (EditText strips RS).";
+                    "Status: WebView ready — UAT Valid → Verify (expect 1), or " +
+                    "Prod Real → Verify (UAT off, expect 1). " +
+                    "Mode must match the sample (UAT↔sandbox, Prod↔production).";
             }
             catch (Exception ex)
             {
