@@ -76,7 +76,8 @@ namespace Cadmv.DlidVerifier
                 cancellationToken, timeoutCts.Token);
             try
             {
-                await tcs.Task.WaitAsync(linked.Token).ConfigureAwait(false);
+                // WaitAsync is .NET 6+; use WhenAny so classic Xamarin.Android builds.
+                await WaitWithCancellationAsync(tcs.Task, linked.Token).ConfigureAwait(false);
             }
             catch (System.OperationCanceledException) when (timeoutCts.IsCancellationRequested
                 && !cancellationToken.IsCancellationRequested)
@@ -210,8 +211,8 @@ namespace Cadmv.DlidVerifier
 
             try
             {
-                return await resultTcs.Task
-                    .WaitAsync(linked.Token)
+                // WaitAsync is .NET 6+; use WhenAny so classic Xamarin.Android builds.
+                return await WaitWithCancellationAsync(resultTcs.Task, linked.Token)
                     .ConfigureAwait(false);
             }
             catch (System.OperationCanceledException)
@@ -220,6 +221,51 @@ namespace Cadmv.DlidVerifier
                 // Timeout / cancel → fail closed as invalid (0), not offline.
                 return DlidResultCodes.Invalid;
             }
+        }
+
+        /// <summary>
+        /// Await a task until it completes or <paramref name="cancellationToken"/> fires.
+        /// Compatible with classic Xamarin.Android (no <c>Task.WaitAsync</c>).
+        /// </summary>
+        private static async Task<T> WaitWithCancellationAsync<T>(
+            Task<T> task,
+            CancellationToken cancellationToken)
+        {
+            if (task == null)
+            {
+                throw new ArgumentNullException(nameof(task));
+            }
+
+            if (task.IsCompleted)
+            {
+                return await task.ConfigureAwait(false);
+            }
+
+            cancellationToken.ThrowIfCancellationRequested();
+
+            var cancelTcs = new TaskCompletionSource<bool>(
+                TaskCreationOptions.RunContinuationsAsynchronously);
+            using (cancellationToken.Register(
+                s => ((TaskCompletionSource<bool>)s).TrySetResult(true),
+                cancelTcs))
+            {
+                var completed = await Task.WhenAny(task, cancelTcs.Task)
+                    .ConfigureAwait(false);
+                if (completed != task)
+                {
+                    // Observe faults on the abandoned task so they are not unobserved.
+                    _ = task.ContinueWith(
+                        t => { var _unused = t.Exception; },
+                        CancellationToken.None,
+                        TaskContinuationOptions.OnlyOnFaulted
+                            | TaskContinuationOptions.ExecuteSynchronously,
+                        TaskScheduler.Default);
+                    cancellationToken.ThrowIfCancellationRequested();
+                    throw new System.OperationCanceledException(cancellationToken);
+                }
+            }
+
+            return await task.ConfigureAwait(false);
         }
 
         private void EnsureWebViewLocked(TaskCompletionSource<bool> readyTcs)
